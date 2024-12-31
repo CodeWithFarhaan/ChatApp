@@ -1,0 +1,261 @@
+/* General resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    ::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+body {
+    background-color: #e5ddd5;
+    color: #333;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #075e54; /* WhatsApp green */
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title i {
+    margin-right: 10px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#menu-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.users-window {
+    background-color: #ffffff;
+    width: 280px;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.users-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.users-head h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.users-count {
+    font-size: 16px;
+    font-weight: bold;
+    color: #999;
+}
+
+.users-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.users-list p {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.users-list p:hover {
+    background-color: #f1f1f1;
+}
+
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.chats {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.user-join {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #999;
+    font-style: italic;
+}
+
+.message {
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 8px 0;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.message h5 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #444;
+}
+
+.message p {
+    font-size: 16px;
+}
+
+.message.incoming {
+    background-color: #dcf8c6;
+    align-self: flex-start;
+}
+
+.message.outgoing {
+    background-color: #128c7e; /* WhatsApp dark green */
+    color: white;
+    align-self: flex-end;
+}
+
+.user-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    background-color: #f8f8f8;
+    padding-bottom: 15px;
+}
+
+#user-msg {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    background-color: #f1f1f1;
+    color: #333;
+    outline: none;
+}
+
+#user-msg:focus {
+    border-color: #075e54;
+    background-color: white;
+}
+
+#user-send {
+    background-color: #075e54; /* WhatsApp green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background-color 0.2s ease;
+}
+
+#user-send:hover {
+    background-color: #128c7e;
+}
+
+/* Media queries for responsiveness */
+
+/* Mobile screens */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .users-window {
+        width: 100%;
+        border-right: none;
+        padding: 10px;
+    }
+
+    .chat-window {
+        padding: 10px;
+    }
+
+    #user-msg {
+        width: 75%;
+    }
+
+    #user-send {
+        width: 20%;
+    }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 18px;
+    }
+
+    .users-head h3 {
+        font-size: 16px;
+    }
+
+    .users-count {
+        font-size: 14px;
+    }
+
+    .message h5 {
+        font-size: 12px;
+    }
+
+    .message p {
+        font-size: 14px;
+    }
+
+    #user-msg {
+        width: 65%;
+    }
+
+    #user-send {
+        width: 25%;
+    }
+}
