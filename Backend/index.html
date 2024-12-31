@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>KyaBolteBacchi</title>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div class="title">
+                <i class="fas fa-comment" style="font-size: 35px;"></i>
+                <h1>KyaBolteBacchi</h1>
+            </div>
+            <button type="button" id="menu-button">
+                <i class="fas fa-bars" style="font-size: 50px;"></i>
+            </button>
+        </header>
+        <div class="container">
+            <div class="users-window">
+                <div class="users-head">
+                    <h3>People</h3>
+                    <h3 class="users-count">0</h3>
+                </div>
+                <div class="users-list">
+                    <!-- <p>name</p>
+                    <p>name2</p>
+                    <p>name3</p> -->
+                </div>
+            </div>
+
+            <!-- Chat window -->
+            <div class="chat-window">
+                <div class="chats">
+                    <!-- <div class="user-join">
+                        <p><b>name</b> joined the chat</p>
+                    </div>
+                    <div class="message incoming">
+                        <h5>name</h5>
+                        <p>hello name2</p>
+                    </div>
+                    <div class="message outgoing">
+                        <h5>name3</h5>
+                        <p>welcome name</p>
+                    </div> -->
+                </div>
+                <div class="user-input">
+                    <input id="user-msg" type="text" placeholder="Type Your Message...">
+                    <button type="button" id="user-send">SEND</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+        integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+        crossorigin="anonymous"></script>
+    <script>
+        // toggle icon menu =============================================       
+        document.getElementById('menu-button').addEventListener('click', function () {
+            const usersWindow = document.querySelector('.users-window');
+            usersWindow.classList.toggle('active');
+        });
+        
+        // socket.io ====================================================
+        const socket = io();
+        var username;
+        var chats = document.querySelectorAll(".chats");
+        var users_list = document.querySelectorAll(".users-list");
+        var users_count = document.querySelectorAll(".users-count");
+        var user_send = document.querySelectorAll("#user-send");
+        var user_msg = document.querySelectorAll("#user-msg");
+        do {
+            username = prompt("Enter Your Name: ");
+        } while (!username);
+
+        // It Will called when user joined
+        socket.emit("new-user-joined", username);
+
+        // Notified when user is joined
+        socket.on('user-connected', (socket_name) => {
+            userJoinLeft(socket_name, "joined");
+        });
+
+        // function to create joined/left status
+        function userJoinLeft(name, status) {
+            let div = document.createElement("div");
+            div.classList.add("user-join");
+            let content = `<p><b>${name}</b> ${status} the chat</p>`;
+            div.innerHTML = content;
+            chats[0].appendChild(div);
+            chats.scrollTop = chats.scrollHeight;
+        }
+
+        // Notified when user is left 
+        socket.on('user-disconnected', (user) => {
+            userJoinLeft(user, "left");
+        });
+
+        // For updating users list and user counts
+        socket.on('user-list', (users) => {
+            users_list.innerHTML = "";
+            users_arr = Object.values(users);
+            for (i = 0; i < users_arr.length; i++) {
+                let p = document.createElement('p');
+                p.innerText = users_arr[i];
+                users_list[0].appendChild(p);
+            }
+            users_count[0].innerHTML = users_arr.length;
+        });
+
+        // For sending message
+        user_send[0].addEventListener('click', () => {
+            let data = {
+                user: username,
+                msg: user_msg[0].value
+            };
+            if (user_msg[0].value != '') {
+                appendMessage(data, 'outgoing');
+                socket.emit('message', data);
+                user_msg[0].value = "";
+            }
+        });
+
+        function appendMessage(data, status) {
+            let div = document.createElement("div");
+            div.classList.add("message", status);
+            let content = `
+    <h5>${data.user}</h5>
+    <p>${data.msg}</p>
+    `;
+            div.innerHTML = content;
+            chats[0].appendChild(div);
+            chats.scrollTop = chats.scrollHeight;
+        }
+
+        socket.on('message', (data) => {
+            appendMessage(data, 'incoming');
+        });
+
+    </script>
+</body>
+
+</html>
