@@ -18,9 +18,6 @@
                 <i class="fas fa-comment" style="font-size: 35px;"></i>
                 <h1>KyaBolteBacchi</h1>
             </div>
-            <button type="button" id="menu-button">
-                <i class="fas fa-bars" style="font-size: 50px;"></i>
-            </button>
         </header>
         <div class="container">
             <div class="users-window">
@@ -57,16 +54,11 @@
             </div>
         </div>
     </main>
+    
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
         integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
         crossorigin="anonymous"></script>
     <script>
-        // toggle icon menu =============================================       
-        document.getElementById('menu-button').addEventListener('click', function () {
-            const usersWindow = document.querySelector('.users-window');
-            usersWindow.classList.toggle('active');
-        });
-        
         // socket.io ====================================================
         const socket = io();
         var username;
